@@ -21,6 +21,7 @@ def listen_and_answer() -> None:
 	genai.configure(api_key=api_key)
 	model = genai.GenerativeModel("gemini-3.5-flash")
 	recognizer = sr.Recognizer()
+	
     
 
 	try:
