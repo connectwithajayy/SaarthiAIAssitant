@@ -4,6 +4,18 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 
+def speak_text(text: str) -> None:
+	"""Speak text directly using pyttsx3 without creating an MP3 file."""
+	try:
+		import pyttsx3
+	except ImportError as exc:
+		raise RuntimeError("pyttsx3 is not installed. Install it with: pip install pyttsx3") from exc
+
+	engine = pyttsx3.init()
+	engine.say(text)
+	engine.runAndWait()
+
+
 def ask_gemini(model: genai.GenerativeModel, question: str) -> str:
 	response = model.generate_content(question)
 	if hasattr(response, "text") and response.text:
@@ -57,6 +69,7 @@ def listen_and_answer() -> None:
 			try:
 				answer = ask_gemini(model, text)
 				print(f"AI: {answer}\n")
+				speak_text(answer)
 			except Exception as error:
 				print(f"Gemini API error: {error}")
 
